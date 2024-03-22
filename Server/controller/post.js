@@ -7,7 +7,7 @@ exports.createPost = async(req,res) =>{
     try{
         const userId = req.user.id
         const {desc}=req.body;
-        const post = req.files.post;
+        const post = req.files.Post;
         if(!post || !desc){
             return res.status(400).json({
                 success:false,
@@ -24,14 +24,30 @@ exports.createPost = async(req,res) =>{
             })
 
         
-        const updatedUserDetails = await User.findById(userId)
-        updatedUserDetails.posts.push(newPost._id);
-        await updatedUserDetails.save();
+        const userDetails = await User.findById(userId)
+        userDetails.posts.push(newPost._id);
+        await userDetails.save();
+        const posts = await Post.find({}).populate({
+            path:"comments",
+            populate:{
+                path:"user"
+            }
+        }).populate("user").exec()
+        console.log("posts.............",posts)
+        const updatedUserDetails = await User.findById(userId).populate("additionalDetails").
+                                                        populate("friends").
+                                                        populate({path:"posts",
+                                                            populate:{
+                                                                path:"user"
+                                                            }
+                                                        
+                                                        }).populate("requestSent").
+                                                        populate("requestReview").exec()
             return res.status(200).json({
                 success:true,
                 message:"Post Created Successfully",
                 data:updatedUserDetails,
-                post:post
+                post:posts
             })
 
     
@@ -77,12 +93,29 @@ exports.deletePost = async(req,res) =>{
     }))
 
     
-    const updatedUserDetails = await User.findByIdAndUpdate(userId,{$pull:{posts:postId}})
+    const UserDetails = await User.findByIdAndUpdate(userId,{$pull:{posts:postId}})
     await Post.findByIdAndDelete(postId)
+    const posts = await Post.find({}).populate({
+        path:"comments",
+        populate:{
+            path:"user"
+        }
+    }).populate("user").exec()
+    console.log("posts.............",posts)
+    const updatedUserDetails = await User.findById(userId).populate("additionalDetails").
+                                                    populate("friends").
+                                                    populate({path:"posts",
+                                                        populate:{
+                                                            path:"user"
+                                                        }
+                                                    
+                                                    }).populate("requestSent").
+                                                    populate("requestReview").exec()
     return res.status(200).json({
         success:true,
         message:"Post Deleted Successfully",
-        data:updatedUserDetails
+        data:updatedUserDetails,
+        post:posts
     })
     } catch(error){
         return res.status(400).json({
@@ -133,20 +166,27 @@ exports.addComment = async(req,res)=>{
         userDetail.postComment.push(newComment._id);
         await userDetail.save();
 
+        const posts = await Post.find({}).populate({
+            path:"comments",
+            populate:{
+                path:"user"
+            }
+        }).populate("user").exec()
+        console.log("posts.............",posts)
         const updatedUserDetails = await User.findById(userId).populate("additionalDetails").
                                                         populate("friends").
-                                                        populate("posts",{
+                                                        populate({path:"posts",
                                                             populate:{
-                                                                path:"comments",
-                                                                model:"Comment"
+                                                                path:"user"
                                                             }
+                                                        
                                                         }).populate("requestSent").
                                                         populate("requestReview").exec()
 
         return res.status(200).json({
             success:true,
             message:"Comment Added Successfully",
-            post:updatedPost,
+            post:posts,
             data:updatedUserDetails
         })
     } catch(error){
@@ -187,14 +227,30 @@ exports.deleteComment = async(req,res) => {
         }
         const updatedPost = await Post.findByIdAndUpdate(postId,{$pull:{comments:commentId}},{new:true})
 
-        const updatedUserDetails = await User.findByIdAndUpdate(userid,{$pull:{postComment:commentId}},{new:true})
+        const userDetails = await User.findByIdAndUpdate(userid,{$pull:{postComment:commentId}},{new:true})
 
         await Comment.findByIdAndDelete(commentId)
+        const posts = await Post.find({}).populate({
+            path:"comments",
+            populate:{
+                path:"user"
+            }
+        }).populate("user").exec()
+        console.log("posts.............",posts)
+        const updatedUserDetails = await User.findById(userId).populate("additionalDetails").
+                                                        populate("friends").
+                                                        populate({path:"posts",
+                                                            populate:{
+                                                                path:"user"
+                                                            }
+                                                        
+                                                        }).populate("requestSent").
+                                                        populate("requestReview").exec()
         return res.status(200).json({
             success:true,
             message:"Comment Deleted Successfully",
             data:updatedUserDetails,
-            post:updatedPost
+            post:posts
         })
 
 
@@ -238,20 +294,27 @@ exports.likePost = async(req,res)=>{
         await postDetail.save();
         await userDetail.save();
 
+        const posts = await Post.find({}).populate({
+            path:"comments",
+            populate:{
+                path:"user"
+            }
+        }).populate("user").exec()
+        console.log("posts.............",posts)
         const updatedUserDetails = await User.findById(userId).populate("additionalDetails").
                                                         populate("friends").
-                                                        populate("posts",{
+                                                        populate({path:"posts",
                                                             populate:{
-                                                                path:"comments",
-                                                                model:"Comment"
+                                                                path:"user"
                                                             }
+                                                        
                                                         }).populate("requestSent").
                                                         populate("requestReview").exec()
-
         return res.status(200).json({
             success:true,
             message:"Like Updated Successfully",
-            data:updatedUserDetails
+            data:updatedUserDetails,
+            post:posts
         })
 
 
@@ -265,12 +328,30 @@ exports.likePost = async(req,res)=>{
 }
 
 exports.fetchAllPost = async(req,res)=>{
+    const userId = req.user.id
     try{
-        const posts = await Post.find({}).populate("comments").populate("user").exec()
+        const posts = await Post.find({}).populate({
+            path:"comments",
+            populate:{
+                path:"user"
+            }
+        }).populate("user").exec()
+        console.log("posts.............",posts)
+        const updatedUserDetails = await User.findById(userId).populate("additionalDetails").
+                                                        populate("friends").
+                                                        populate({path:"posts",
+                                                            populate:{
+                                                                path:"user"
+                                                            }
+                                                        
+                                                        }).populate("requestSent").
+                                                        populate("requestReview").exec()
         return res.status(200).json({
             success:true,
             message:"All posts fetched successfully",
-            data:posts
+            post:posts,
+            data:updatedUserDetails
+            
         })
     } catch(error){
         return res.status(400).json({

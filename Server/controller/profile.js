@@ -13,7 +13,7 @@ exports.deleteAccount = async(req,res)=>{
             .populate({path:"posts",
                         populate:{
                             path:"comments",
-                            model:"Comment"
+                            model:"comment"
                         }}).exec();
         
                         
@@ -42,6 +42,7 @@ exports.deleteAccount = async(req,res)=>{
 
 
     } catch(error){
+        console.log("eroor",error)
         return res.status(400).json({
             success:false,
             message:"Technical Issue Try After Some Time"

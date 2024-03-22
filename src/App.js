@@ -16,7 +16,7 @@ import CreatePost from "./pages/CreatePost";
 function App() {
   
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-black text-white h-screen overflow-hidden">
       <Routes>
         <Route
           element={
@@ -29,7 +29,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path ="/edit-profile" element={<EditProfile/>}/>
           <Route path ="/create-post" element={<CreatePost/>}/>
-          <Route path ="/setting" element={<CreatePost/>}/>
+          <Route path ="/setting" element={<EditProfile/>}/>
         </Route>
 
         <Route path="/login" element={<LogIn/>}/>

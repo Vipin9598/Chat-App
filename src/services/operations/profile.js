@@ -8,7 +8,7 @@ import {updateProfile_API,updateImage_API,deleteAccount_API,GetAllUser_API,userD
 
 
 export const updateProfile = async(data,dispatch,chatToken) => {
-    const result=null;
+    let result=null;
     dispatch(setLoading(true))
     const toastId = toast.loading("Loading...")
     try{
@@ -24,7 +24,13 @@ export const updateProfile = async(data,dispatch,chatToken) => {
     }
     catch(error){
         console.log("updateProfile Api response...................",result)
-        toast.error(error.message);
+        if (error.response && error.response.status === 403) {
+            localStorage.removeItem("chatUser");
+            localStorage.removeItem("chatToken");
+            window.location.href = "/login";
+          } else {
+            toast.error(error.message);
+          }
     }
     dispatch(setLoading(false))
     toast.dismiss(toastId)
@@ -32,7 +38,7 @@ export const updateProfile = async(data,dispatch,chatToken) => {
 }
 
 export const updateImage = async(data,dispatch,chatToken) => {
-    const result=null;
+    let result=null;
     dispatch(setLoading(true))
     const toastId = toast.loading("Loading...")
     try{
@@ -48,19 +54,25 @@ export const updateImage = async(data,dispatch,chatToken) => {
     }
     catch(error){
         console.log("updateImage Api response...................",result)
-        toast.error(error.message);
+        if (error.response && error.response.status === 403) {
+            localStorage.removeItem("chatUser");
+            localStorage.removeItem("chatToken");
+            window.location.href = "/login";
+          } else {
+            toast.error(error.message);
+          }
     }
     dispatch(setLoading(false))
     toast.dismiss(toastId)
     return result;
 }
 
-export const deleteAccount = async(data,dispatch,navigate,chatToken) => {
-    const result=null;
+export const deleteAccount = async(id,dispatch,navigate,chatToken) => {
+    let result=null;
     dispatch(setLoading(true))
     const toastId = toast.loading("Loading...")
     try{
-        result = await apiConnector("POST",deleteAccount_API,data,{
+        result = await apiConnector("POST",deleteAccount_API,{id},{
             Authorization: `Bearer ${chatToken}`
         })
         console.log("deleteAccount Api response...................",result)
@@ -74,8 +86,14 @@ export const deleteAccount = async(data,dispatch,navigate,chatToken) => {
         navigate("/login")
     }
     catch(error){
-        console.log("deleteAccount Api response...................",result)
-        toast.error(error.message);
+        console.log("deleteAccount Api response...................",error)
+        if (error.response && error.response.status === 403) {
+            localStorage.removeItem("chatUser");
+            localStorage.removeItem("chatToken");
+            window.location.href = "/login";
+          } else {
+            toast.error(error.message);
+          }
     }
     dispatch(setLoading(false))
     toast.dismiss(toastId)
@@ -99,7 +117,13 @@ export const userDetail = async(data,dispatch,chatToken) => {
     }
     catch(error){
         console.log("userDetail Api response...................",result)
-        toast.error(error.message);
+        if (error.response && error.response.status === 403) {
+            localStorage.removeItem("chatUser");
+            localStorage.removeItem("chatToken");
+            window.location.href = "/login";
+          } else {
+            toast.error(error.message);
+          }
     }
     dispatch(setLoading(false))
     toast.dismiss(toastId)
@@ -121,7 +145,13 @@ export const getAllUser = async(dispatch,chatToken) => {
     }
     catch(error){
         console.log("getAllUser Api response...................",result)
-        toast.error(error.message);
+        if (error.response && error.response.status === 403) {
+            localStorage.removeItem("chatUser");
+            localStorage.removeItem("chatToken");
+            window.location.href = "/login";
+          } else {
+            toast.error(error.message);
+          }
     }
     dispatch(setLoading(false))
     toast.dismiss(toastId)

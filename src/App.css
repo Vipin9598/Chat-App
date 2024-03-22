@@ -70,3 +70,14 @@
      transform: rotate(1turn);
   }
 }
+
+.profilePost{
+  display: grid;
+}
+
+@media (min-width: 400px) and (max-width: 660px) {
+  .profilePost {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
