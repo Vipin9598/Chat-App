@@ -12,11 +12,13 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Otp from "./pages/Otp";
 import CreatePost from "./pages/CreatePost";
+import Navbar from "./components/Navbar";
 
 function App() {
   
   return (
     <div className="bg-black text-white h-screen overflow-hidden">
+      
       <Routes>
         <Route
           element={

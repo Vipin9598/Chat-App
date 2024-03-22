@@ -25,7 +25,7 @@ const linkData = [
     path: "/edit-profile",
   },
 ];
-const SideBar = ({ setConfirmationModalData }) => {
+const SideBar = ({setHamVisible, setConfirmationModalData }) => {
   const location = useLocation();
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ const SideBar = ({ setConfirmationModalData }) => {
   }
 
   return (
-    <div className="w-full  h-screen  overflow-hidden min-w-[12em] flex flex-col items-center justify-between gap-20 py-[30px] border-r border-opacity-50">
+    <div className="w-full  h-screen  overflow-hidden min-w-[12em] flex flex-col items-center justify-between  py-[30px] ">
       <div className="flex flex-col items-center gap-20">
         <p className="font-bold text-xl text-blue-300">Chat-App</p>
         <div className="flex flex-col gap-5 w-fit ">
@@ -59,6 +59,7 @@ const SideBar = ({ setConfirmationModalData }) => {
                 } `}
                 key={index}
                 to={link.path}
+                
               >
                 {link.name}
               </Link>
