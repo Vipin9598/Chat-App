@@ -1,11 +1,10 @@
-import {updatePassword_API,resetPasswordToken_API,resetPassword_API,sendOTP_API,LogIn_API ,SignUp_API} from "../apis"
+import {resetPasswordToken_API,resetPassword_API,sendOTP_API,LogIn_API ,SignUp_API} from "../apis"
 
 import { apiConnector } from "../apiconnector"
 import { toast } from "react-hot-toast"
-import { setSignUpData } from "../../slices/authSlice"
-import { setIsBlurred } from "../../slices/authSlice"
+
 import {setLoading} from "../../slices/authSlice"
-import {setGeneratedOTP} from "../../slices/authSlice"
+
 import {setChatToken} from "../../slices/authSlice"
 import { setUser } from "../../slices/profileSlice"
 

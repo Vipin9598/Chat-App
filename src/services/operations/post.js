@@ -1,6 +1,5 @@
 import { setUser, setPost } from "../../slices/profileSlice";
 import { setLoading } from "../../slices/authSlice";
-import { setIsBlurred } from "../../slices/authSlice";
 import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiconnector";
 import {
@@ -109,7 +108,7 @@ export const addComment = async (data, dispatch, chatToken) => {
 };
 
 export const deleteComment = async (data, dispatch, chatToken) => {
-  const result = null;
+  let result = null;
   dispatch(setLoading(true));
   const toastId = toast.loading("Loading...");
   try {

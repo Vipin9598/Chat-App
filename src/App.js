@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
@@ -15,7 +15,9 @@ import CreatePost from "./pages/CreatePost";
 import Navbar from "./components/Navbar";
 
 function App() {
-  
+  useEffect(() => {
+    document.title = "Chat-App";
+  }, []);
   return (
     <div className="bg-black text-white h-screen overflow-hidden">
       

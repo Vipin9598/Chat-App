@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import MediaDisplay from "../components/MediaDisplay";
 import ViewCommentModal from "../components/ViewCommentModal";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";

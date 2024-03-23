@@ -1,6 +1,5 @@
 import { setUser } from "../../slices/profileSlice"; 
 import { setLoading } from "../../slices/authSlice";
-import  {setIsBlurred} from "../../slices/authSlice"
 import {toast} from "react-hot-toast"
 import { apiConnector } from "../apiconnector";
 import {updateProfile_API,updateImage_API,deleteAccount_API,GetAllUser_API,userDetails_API,updatePassword_API} from "../apis"
@@ -68,6 +67,7 @@ export const updateImage = async(data,dispatch,chatToken) => {
 }
 
 export const deleteAccount = async(id,dispatch,navigate,chatToken) => {
+    
     let result=null;
     dispatch(setLoading(true))
     const toastId = toast.loading("Loading...")
@@ -101,7 +101,7 @@ export const deleteAccount = async(id,dispatch,navigate,chatToken) => {
 }
 
 export const userDetail = async(data,dispatch,chatToken) => {
-    const result=null;
+    let result=null;
     dispatch(setLoading(true))
     const toastId = toast.loading("Loading...")
     try{
@@ -159,7 +159,7 @@ export const getAllUser = async(dispatch,chatToken) => {
 }
 
 export const updatePassword = async(data,dispatch,chatToken) => {
-    const result=null;
+    let result=null;
     dispatch(setLoading(true))
     const toastId = toast.loading("Loading...")
     try{

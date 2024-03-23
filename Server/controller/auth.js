@@ -1,5 +1,5 @@
 const User = require("../Schema/userSchema")
-const bcrypt=require("bcrypt")
+const bcrypt = require("bcryptjs")
 require("dotenv").config()
 const Profile = require("../Schema/profileSchema")
 const mailSender = require("../utils/mailSender")

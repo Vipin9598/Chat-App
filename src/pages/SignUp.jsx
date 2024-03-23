@@ -11,7 +11,6 @@ const SignUp = () => {
     const navigate = useNavigate();
   const dispatch = useDispatch();
   const {loading} = useSelector((state)=>state.auth)
-  const [accountType, setAccountType] = useState("Student");
   const [formData, setformData] = useState({
     firstName: "",
     lastName: "",
